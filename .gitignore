@@ -1,0 +1,6 @@
+.env
+package-lock.json
+exports/
+node_modules/
+creds.json
+token.json
