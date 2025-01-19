@@ -74,14 +74,16 @@ exports.sendEmail = async (attachmentName, text) => {
 
     if (config.sendEmail) {
         console.log("Sending email to", to);
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error("Error sending email: ", error);
-            } else {
-                console.log("Email sent: ", info.response);
-            }
-            process.exit(1);
-        });
+        return new Promise((resolve, reject) => {
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error("Error sending email: ", error);
+                } else {
+                    console.log("Email sent: ", info.response);
+                }
+                resolve()
+            });
+        })
     }
     return
 };

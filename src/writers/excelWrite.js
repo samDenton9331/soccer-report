@@ -25,9 +25,9 @@ exports.writeExcel = (map) => {
         });
 
         const rotation = [
+            "Biceps and Back",
             "Lower Body",
             "Chest And Shoulders",
-            "Biceps and Back",
         ];
 
         let rotationIndex = 0;
@@ -35,7 +35,7 @@ exports.writeExcel = (map) => {
         let col = 1;
 
         const write = (value) => {
-            console.log("write value", value, "at (", row, ",", col, ")");
+            // console.log("write value", value, "at (", row, ",", col, ")");
             worksheet.cell(row, col).string(value).style(style);
         };
 

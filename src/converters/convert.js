@@ -1,12 +1,16 @@
+const fs = require("fs");
 const { getMonday, dateStr } = require("./../date/dateUtil");
 
 const xlsx = require("node-xlsx").default;
 
 exports.getFitbod = () => {
     // Parse a file
-    const workSheetsFromFile = xlsx.parse(
-        process.env.FILE_PATH,
-    );
+    const files = fs.readdirSync(process.env.ONE_DRIVE_FILE_PATH)
+        .filter(f => f.endsWith("csv"))
+        .sort((a,b) => a.localeCompare(b));
+    const fileToUse = process.env.ONE_DRIVE_FILE_PATH + "\\" + files?.[files.length - 1];
+    console.log("File to use is", fileToUse);
+    const workSheetsFromFile = xlsx.parse(fileToUse);
     const fitbodData = workSheetsFromFile[0].data;
     let i = 0;
     const map = {};
