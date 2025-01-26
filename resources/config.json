@@ -1,4 +1,4 @@
 {
-    "sendEmail": false,
-    "emailToCoaches": false
+    "sendEmail": true,
+    "emailToCoaches": true
 }

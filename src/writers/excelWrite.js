@@ -24,11 +24,33 @@ exports.writeExcel = (map) => {
             },
         });
 
+        const chestDays = ["Barbell Bench"]
+        const legDays = ["Squat"];
+
         const rotation = [
             "Biceps and Back",
             "Lower Body",
             "Chest And Shoulders",
         ];
+
+        const findRotation = (workout) => {
+            const exercises = Object.keys(workout).map(
+                (key) => key.split("_")[1]
+            );
+            for (const exercise of exercises) {
+                for (const chestDay of chestDays) {
+                    if (exercise.includes(chestDay)) {
+                        return rotation[2];
+                    }
+                }
+                for (const legDay of legDays) {
+                    if (exercise.includes(legDay)) {
+                        return rotation[1];
+                    }
+                }
+            }
+            return rotation[0];
+        }
 
         let rotationIndex = 0;
         let row = 1;
@@ -60,11 +82,11 @@ exports.writeExcel = (map) => {
 
             if (key.endsWith("Walking") || key.endsWith("Running")) {
             } else if (Object.keys(map[key]).length > 0) {
-                write(key + " - " + rotation[rotationIndex]);
+                const workout = map[key];
+                write(key + " - " + findRotation(workout));
                 row++;
                 rotationIndex++;
                 if (rotationIndex === 3) rotationIndex = 0;
-                const workout = map[key];
                 col++;
                 write("Exercise");
                 col++;
