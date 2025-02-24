@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { getMonday, dateStr } = require("./../date/dateUtil");
+const { getMonday, dateStr, getSunday } = require("./../date/dateUtil");
 
 const xlsx = require("node-xlsx").default;
 
@@ -8,14 +8,15 @@ exports.getFitbod = () => {
     const files = fs.readdirSync(process.env.ONE_DRIVE_FILE_PATH)
         .filter(f => f.endsWith("csv"))
         .sort((a,b) => a.localeCompare(b));
-    const fileToUse = process.env.ONE_DRIVE_FILE_PATH + "\\" + files?.[0];
+    const fileToUse = process.env.ONE_DRIVE_FILE_PATH + "\\" + files?.[files.length - 2];
     console.log("File to use is", fileToUse);
     const workSheetsFromFile = xlsx.parse(fileToUse);
     const fitbodData = workSheetsFromFile[0].data;
     let i = 0;
     const map = {};
     let monday = getMonday(new Date());
-    let sunday = new Date();
+    let sunday = getSunday()
+    console.log("Monday is", monday, "Sunday is", sunday)
     const stravaData = {};
     for (const row of fitbodData) {
         if (i !== 0) {

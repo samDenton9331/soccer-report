@@ -1,9 +1,12 @@
+const weekOffset = 1;
+
 exports.getMonday = (d = new Date()) => {
     d = new Date(d);
     var day = d.getDay(),
         diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
     const mon = new Date(d.setDate(diff));
     mon.setHours(0, 0, 0, 0);
+    mon.setDate(mon.getDate() - (7 * weekOffset));
     return mon;
 };
 
@@ -11,7 +14,10 @@ exports.getDayFromMonday = (d = new Date(), upset = 0) => {
     d = new Date(d);
     var day = d.getDay(),
         diff = d.getDate() - day + (day == 0 ? -6 : 1) + upset; // adjust when day is sunday
-    return new Date(d.setDate(diff));
+    const dayOffset = new Date(d.setDate(diff));
+    dayOffset.setHours(0, 0, 0, 0);
+    dayOffset.setDate(dayOffset.getDate() - 7 * weekOffset);
+    return dayOffset;
 };
 
 exports.getSunday = () => exports.getDayFromMonday(new Date(), 6);

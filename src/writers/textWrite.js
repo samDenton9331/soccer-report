@@ -1,5 +1,6 @@
 const fs = require("fs");
 const input = require("../../resources/input.json");
+const restDayInput = require("../../resources/restDayOverride.json");
 const {
     getDayName,
     getDateFromDayName,
@@ -144,8 +145,12 @@ const defaultDays = (soccer) => {
             !days[key + "Walk"] &&
             !days[key + "Run"]
         ) {
+            let inputText = 'Rest Day'
+            if (restDayInput.useRestDayOverride && restDayInput[key]) {
+                inputText = restDayInput[key];
+            }
             days[key] =
-                key.toUpperCase() + ` (${getDateFromDayName(key)}) - Rest Day`;
+                key.toUpperCase() + ` (${getDateFromDayName(key)}) - ${inputText}`;
         }
     }
 };
@@ -187,9 +192,16 @@ exports.writeEmailText = (map, soccer) => {
         }
     }
     defaultDays(soccer);
+    const extraTop = []
+    if (process.env.extraTop !== undefined && process.env.extraTop !== "") {
+        extraTop.push("");
+        extraTop.push(process.env.extraTop);
+        extraTop.push("");
+    }
     const data = [
         `Hi Guys, Please see Training Report ${countReports()} with attachments`,
         '',
+        ...extraTop,
         `Report`,
         `********`,
         ...addDay("monday"),
