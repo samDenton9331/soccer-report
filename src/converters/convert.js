@@ -8,7 +8,8 @@ exports.getFitbod = () => {
     const files = fs.readdirSync(process.env.ONE_DRIVE_FILE_PATH)
         .filter(f => f.endsWith("csv"))
         .sort((a,b) => a.localeCompare(b));
-    const fileToUse = process.env.ONE_DRIVE_FILE_PATH + "\\" + files?.[files.length - 2];
+    let fileToUse = process.env.ONE_DRIVE_FILE_PATH + "/" + 
+        (files.length === 1 ? files[0] : files?.[files.length - 2]);
     console.log("File to use is", fileToUse);
     const workSheetsFromFile = xlsx.parse(fileToUse);
     const fitbodData = workSheetsFromFile[0].data;

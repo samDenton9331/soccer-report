@@ -51,7 +51,7 @@ exports.sendEmail = async (attachmentName, text) => {
         text,
         attachments: {
             filename: attachmentName,
-            path: `${process.env.BASE_PATH}\\exports\\${attachmentName}`,
+            path: `${process.env.BASE_PATH}${process.env.fileSeperator}exports${process.env.fileSeperator}${attachmentName}`,
         },
     };
 
